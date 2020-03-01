@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Hangman</h2>
+  <div class="score">Score: {{ game.score }}</div>
+  <div class="result-container">
+    <span class="result" *ngIf="game.panel">{{ game.panel.join(' ') }}</span>
+    <pre>
+      {{ game.statePicture }}
+    </pre>
+  </div>
+  <form class="input-form" [formGroup]="answerForm" (ngSubmit)="check()" *ngIf="game.answerLength">
+    <input
+      #input
+      type="text"
+      appUppercase
+      placeholder="Your Try"
+      formControlName="attempt"
+    />
+    <button type="submit" [disabled]="!answerForm.valid">Check</button>
+    <button type="button" class="reset" (click)="reset()">Reset</button>
+  </form>
+</div>
