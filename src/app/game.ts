@@ -6,7 +6,7 @@ export class Game {
   private stateCounter: number
   private isFinished: boolean
   private answer: string
-  private static answersDictionary = [
+  public static answersDictionary = [
     '3DHUBS',
     'MARVIN',
     'PRINT',
@@ -71,11 +71,12 @@ export class Game {
     `
   ]
 
-  constructor() {
+  constructor(answer: string) {
     this.score = 500
     this.stateCounter = 0
     this.isFinished = false
-    this.answer = ''
+    this.answer = answer
+    this.panel = new Array(this.answerLength).fill('_')
   }
 
   public get statePicture() {
@@ -84,12 +85,6 @@ export class Game {
 
   public get answerLength() {
     return this.answer.length
-  }
-
-  public async launch() {
-    this.answer = await this.loadAnswer()
-    this.panel = new Array(this.answerLength).fill('_')
-    return Promise.resolve()
   }
 
   public checkAnswer(attempt: string) {
@@ -113,10 +108,6 @@ export class Game {
 
   public stateUp() {
     this.stateCounter++
-  }
-
-  private async loadAnswer(): Promise<string> {
-    return Game.answersDictionary[getRandomInt(4)]
   }
 
   public finish(): void {

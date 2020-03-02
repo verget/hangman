@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Game } from '../game'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-main',
@@ -11,10 +12,10 @@ export class MainComponent implements OnInit {
   public answerForm: FormGroup
   public game: Game
 
-  async ngOnInit(): Promise<void> {
-    this.game = new Game()
-    await this.game.launch()
-    console.log(this.game.answerLength)
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.game = this.route.snapshot.data['game']
     this.answerForm = new FormGroup({
       attempt: new FormControl('', [
         Validators.required,
@@ -24,14 +25,14 @@ export class MainComponent implements OnInit {
     })
   }
 
-  check() {
+  public check(): void {
     if (this.answerForm.valid) {
       this.game.checkAnswer(this.answerForm.value.attempt)
       this.answerForm.reset()
     }
   }
 
-  reset() {
+  public reset(): void {
     location.reload()
   }
 }

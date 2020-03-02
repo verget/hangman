@@ -7,7 +7,12 @@
       {{ game.statePicture }}
     </pre>
   </div>
-  <form class="input-form" [formGroup]="answerForm" (ngSubmit)="check()" *ngIf="game.answerLength">
+  <form
+    *ngIf="game.answerLength"
+    class="input-form"
+    [formGroup]="answerForm"
+    (ngSubmit)="check()"
+  >
     <input
       #input
       type="text"
