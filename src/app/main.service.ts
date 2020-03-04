@@ -9,9 +9,14 @@ import { Game } from './game'
 export class MainService {
   constructor(private http: HttpClient) {}
 
-  public async startNewGame() {
+  public async startNewGame(): Promise<Game> {
     const answer = Game.answersDictionary[getRandomInt(4)]
-    return new Game(answer)
+    return new Game(this.decriptMessage(answer))
+  }
+
+  private decriptMessage(encodedText: string): string {
+    return window.atob(encodedText)
+    // just a Base64 encoding like a simplest way to obfuscate private message
   }
 
   public async loadLiderboard() {

@@ -7,12 +7,12 @@ export class Game {
   private answer: string
   public isFinished: boolean
   public static answersDictionary = [
-    '3DHUBS',
-    'MARVIN',
-    'PRINT',
-    'FILAMENT',
-    'ORDER',
-    'LAYER'
+    'M0RIVUJT',
+    'TUFSVklO',
+    'UFJJTlQ=',
+    'RklMQU1FTlQ=',
+    'T1JERVI=',
+    'TEFZRVI='
   ]
   private static statePictures = [
     `
