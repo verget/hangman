@@ -7,6 +7,7 @@ import {
 import { MainService } from './main.service'
 import { environment } from 'src/environments/environment'
 import { answer } from './mocks/answer'
+import { of } from 'rxjs'
 
 describe('MainService', () => {
   let service: MainService
@@ -27,14 +28,14 @@ describe('MainService', () => {
     expect(service).toBeTruthy()
   })
 
-  // it('should make request to expected url to get a random answer', () => {
-  //   service.getRandomAnswer().subscribe();
-  //   const url = `${baseUrl}/randomAnswer`;
-  //   const req = http.expectOne(url);
-  //   expect(req.request.method).toEqual('GET');
-  //   req.flush([answer]);
-  //   http.verify()
-  // })
+  it('should make request to expected url to get a random answer', () => {
+    service.getRandomAnswer().subscribe();
+    const url = `${baseUrl}/answers/0/`;
+    const req = http.expectOne(url);
+    expect(req.request.method).toEqual('GET');
+    req.flush([answer]);
+    http.verify()
+  })
 
   it('should decrypt the given string by expected way', () => {
     const expected = '3DHUBS'
@@ -43,11 +44,9 @@ describe('MainService', () => {
     expect(result).toEqual(expected);
   })
 
-  it('should call some methods to start a game', async () => {
-    spyOn(service, 'getRandomAnswer').and.returnValue(Promise.resolve(answer))
-    spyOn(service, 'decryptMessage').and.returnValue('3DHUBS')
+  it('should call get answer method to start a game', async () => {
+    spyOn(service, 'getRandomAnswer').and.returnValue(of(answer))
     await service.startNewGame()
     expect(service.getRandomAnswer).toHaveBeenCalled()
-    expect(service.decryptMessage).toHaveBeenCalled()
   })
 })

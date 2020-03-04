@@ -8,15 +8,11 @@
         {{ game.statePicture }}
       </pre>
     </div>
-  
-    <form
-      class="input-form"
-      [formGroup]="answerForm"
-      (ngSubmit)="check()"
-    >
+
+    <form class="input-form" [formGroup]="answerForm" (ngSubmit)="check()">
       <input
-        #input
         type="text"
+        class="answer"
         appUpperCase
         placeholder="Your Try"
         formControlName="attempt"
@@ -28,14 +24,23 @@
   <ng-template #finished>
     <p *ngIf="!game.score; else winner">So sad, now try again</p>
     <ng-template #winner>
-      <p class="golden">Your glory will be preserved for centuries champion</p>
-      <input
-        class="winner-input"
-        maxlength="3"
-        appUppercase
-        type="text"
-        autofocus
-      />
+      <p>Your glory will be preserved for centuries champion</p>
+      <form
+        class="input-form"
+        [formGroup]="championForm"
+        (ngSubmit)="saveChampion()"
+      >
+        <input
+          class="winner-input"
+          maxlength="3"
+          type="text"
+          autofocus
+          formControlName="name"
+        />
+        <button class="save" type="submit" [disabled]="!championForm.valid">
+          Save
+        </button>
+      </form>
     </ng-template>
   </ng-template>
 

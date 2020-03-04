@@ -8,6 +8,7 @@ import { MainComponent } from './main/main.component'
 import { MainService } from './main.service'
 import { Observable } from 'rxjs'
 import { LeaderboardComponent } from './leaderboard/leaderboard.component'
+import { Champion } from './models/champion'
 
 @Injectable({ providedIn: 'root' })
 export class GameResolver implements Resolve<string> {
@@ -19,10 +20,10 @@ export class GameResolver implements Resolve<string> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class LeaderboardResolver implements Resolve<string> {
+export class LeaderboardResolver implements Resolve<Champion[]> {
   constructor(private service: MainService) {}
 
-  resolve(): Observable<any> | Promise<any> {
+  resolve(): Observable<Champion[]> {
     return this.service.loadLiderboard()
   }
 }
@@ -44,7 +45,7 @@ const routes: Routes = [
     path: 'leaderboard',
     component: LeaderboardComponent,
     resolve: {
-      list: LeaderboardResolver
+      champions: LeaderboardResolver
     }
   }
 ]

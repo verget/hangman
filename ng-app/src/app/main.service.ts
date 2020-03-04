@@ -3,27 +3,25 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map } from "rxjs/operators"
 
-import { getRandomInt } from './utils'
-import { Game } from './game'
+import { Game } from './models/game'
 import { environment } from '../environments/environment'
+import { Champion } from './models/champion'
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainService {
-  // private apiUrl: string = environment.apiUrl
+  private apiUrl: string = environment.apiUrl
 
   constructor(private http: HttpClient) {}
 
-  public async startNewGame(): Promise<Game> {
-    const answer = await this.getRandomAnswer()
-    return new Game(this.decryptMessage(answer))
+  public startNewGame(): Observable<Game> {
+    return this.getRandomAnswer().pipe(map(answer => new Game(answer)))
   }
 
-  public async getRandomAnswer(): Promise<string> {
-    // return this.http.get(`${this.apiUrl}/randomAnswer`)
-    //   .pipe(map((response: {type: string, value: string}) => response.value))
-    return Game.answersDictionary[getRandomInt(4)]
+  public getRandomAnswer(): Observable<string> {
+    return this.http.get(`${this.apiUrl}/answers/0/`)
+      .pipe(map((response: any) => this.decryptMessage(response)))
   }
 
   public decryptMessage(encodedText: string): string {
@@ -31,8 +29,14 @@ export class MainService {
     // just a Base64 encoding like a simplest way to obfuscate private message
   }
 
-  public async loadLiderboard() {
-    return []
+  public saveChampion(data: Champion): Observable<void> {
+    return this.http.post(`${this.apiUrl}/champions/`, data)
+      .pipe(map((response: any) => console.log(response)))
+  }
+ 
+  public loadLiderboard(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/champions/`)
+      .pipe(map((response: { count: number, results: Champion[] }) => response.results))
   }
 }
 

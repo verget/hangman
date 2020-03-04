@@ -6,21 +6,9 @@
       <th>Champion</th>
       <th>Score</th>
     </tr>
-    <tr>
-      <td>Peter</td>
-      <td>400</td>
-    </tr>
-    <tr>
-      <td>Lois</td>
-      <td>300</td>
-    </tr>
-    <tr>
-      <td>Joe</td>
-      <td>100</td>
-    </tr>
-    <tr>
-      <td>Cleveland</td>
-      <td>200</td>
+    <tr *ngFor="let item of champions">
+      <td>{{ item.name }}</td>
+      <td>{{ item.score }}</td>
     </tr>
   </table>
   <div class="links">

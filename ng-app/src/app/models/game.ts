@@ -1,4 +1,4 @@
-import { findAllOccurrence } from './utils'
+import { findAllOccurrence } from '../utils'
 
 export class Game {
   public score: number
@@ -6,14 +6,6 @@ export class Game {
   private stateCounter: number
   private answer: string
   public isFinished: boolean
-  public static answersDictionary = [
-    'M0RIVUJT',
-    'TUFSVklO',
-    'UFJJTlQ=',
-    'RklMQU1FTlQ=',
-    'T1JERVI=',
-    'TEFZRVI='
-  ]
   private static statePictures = [
     `
       +---+
@@ -74,7 +66,7 @@ export class Game {
   constructor(answer: string) {
     this.score = 500
     this.stateCounter = 0
-    this.isFinished = false
+    this.isFinished = true
     this.answer = answer
     this.panel = new Array(this.answerLength).fill('_')
   }
