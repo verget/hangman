@@ -1,26 +1,47 @@
 <div class="container">
   <h2>Hangman</h2>
   <div class="score">Score: {{ game.score }}</div>
-  <div class="result-container">
-    <span class="result" *ngIf="game.panel">{{ game.panel.join(' ') }}</span>
-    <pre>
-      {{ game.statePicture }}
-    </pre>
+  <ng-container *ngIf="!game.isFinished; else finished">
+    <div class="result-container">
+      <span class="result" *ngIf="game.panel">{{ game.panel.join(' ') }}</span>
+      <pre>
+        {{ game.statePicture }}
+      </pre>
+    </div>
+  
+    <form
+      class="input-form"
+      [formGroup]="answerForm"
+      (ngSubmit)="check()"
+    >
+      <input
+        #input
+        type="text"
+        appUpperCase
+        placeholder="Your Try"
+        formControlName="attempt"
+      />
+      <button type="submit" [disabled]="!answerForm.valid">Check</button>
+    </form>
+  </ng-container>
+
+  <ng-template #finished>
+    <p *ngIf="!game.score; else winner">So sad, now try again</p>
+    <ng-template #winner>
+      <p class="golden">Your glory will be preserved for centuries champion</p>
+      <input
+        class="winner-input"
+        maxlength="3"
+        appUppercase
+        type="text"
+        autofocus
+      />
+    </ng-template>
+  </ng-template>
+
+  <div class="links">
+    <a (click)="reset()">Reset</a>
+    /
+    <a routerLink="/leaderboard">Leaderboard</a>
   </div>
-  <form
-    *ngIf="game.answerLength"
-    class="input-form"
-    [formGroup]="answerForm"
-    (ngSubmit)="check()"
-  >
-    <input
-      #input
-      type="text"
-      appUppercase
-      placeholder="Your Try"
-      formControlName="attempt"
-    />
-    <button type="submit" [disabled]="!answerForm.valid">Check</button>
-    <button type="button" class="reset" (click)="reset()">Reset</button>
-  </form>
 </div>

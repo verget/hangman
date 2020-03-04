@@ -1,11 +1,11 @@
-import { getRandomInt, findAllOccurrence } from './utils'
+import { findAllOccurrence } from './utils'
 
 export class Game {
   public score: number
   public panel: string[]
   private stateCounter: number
-  private isFinished: boolean
   private answer: string
+  public isFinished: boolean
   public static answersDictionary = [
     '3DHUBS',
     'MARVIN',
@@ -96,6 +96,9 @@ export class Game {
     if (hits.length) {
       for (let i = 0; i < hits.length; i++) {
         this.panel[hits[i]] = attempt
+        if (!this.panel.includes('_')) {
+          this.finish()
+        }
       }
     } else {
       this.score -= 100

@@ -1,42 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
-@import url(https://fonts.googleapis.com/css?family=Pacifico);
-
-* {
-  font-size: 16px;
-}
-
-input:focus,
-button:focus {
-	outline: none;
-}
-
-button:hover {
-	opacity: .8;
-}
-
-button:active, :disabled {
-	opacity: .5;
-}
-
-.container {
-	width: 400px;
-  text-align: center;
-  margin: 10% auto 0 auto;
-}
-
-h2 {
-  font-size: 1.5rem;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  color: #999;
-  margin-bottom: 30px;
-  position: relative;
-}
 
 .score {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #999;
 }
 
 .result-container {
@@ -58,7 +23,7 @@ h2 {
     border: 1px solid transparent;
     color: #777;
     border-radius: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     font-size: 1rem;
     font-family: 'Roboto', sans-serif;
     position: relative;
@@ -82,9 +47,34 @@ h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     position: relative;
-
-    &[type="submit"] {
-      margin-right: 15px;
-    }
   }
+}
+
+.links {
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+  margin: 20px auto;
+
+  &>a {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.winner-input  { 
+  border: none;
+  width: 4.5ch;
+  background: 
+    repeating-linear-gradient(90deg, 
+        dimgrey 0, 
+        dimgrey 1ch, 
+        transparent 0, 
+        transparent 1.5ch) 
+      0 100%/88% 2px no-repeat;
+  color: dimgrey;
+  font: 5ch consolas, monospace;
+  letter-spacing: .5ch;
+  color: transparent;
+  text-shadow: 0px 0px 1px dimgrey;
 }

@@ -13,5 +13,9 @@ export class MainService {
     const answer = Game.answersDictionary[getRandomInt(4)]
     return new Game(answer)
   }
+
+  public async loadLiderboard() {
+    return []
+  }
 }
 
