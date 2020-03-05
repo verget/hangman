@@ -66,7 +66,7 @@ export class Game {
   constructor(answer: string) {
     this.score = 500
     this.stateCounter = 0
-    this.isFinished = true
+    this.isFinished = false
     this.answer = answer
     this.panel = new Array(this.answerLength).fill('_')
   }

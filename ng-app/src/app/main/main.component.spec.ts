@@ -1,21 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
+import { HttpClientTestingModule } from '@angular/common/http/testing'
 
 import { MainComponent } from './main.component'
 import { RouterTestingModule } from '@angular/router/testing'
 import { ActivatedRoute } from '@angular/router'
-import { DebugElement } from '@angular/core'
-import { By } from '@angular/platform-browser'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { fakeGame } from '../mocks/game'
 
 describe('MainComponent', () => {
   let component: MainComponent
   let fixture: ComponentFixture<MainComponent>
-  let de: DebugElement
-  let el: HTMLElement
-  const fakeGame = {
-    answerLength: 1,
-    checkAnswer: jasmine.createSpy('checkAnswer')
-  }
   const fakeActivatedRoute = {
     snapshot: {
       data: {
@@ -26,7 +20,12 @@ describe('MainComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
+      imports: [
+        RouterTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule
+      ],
       declarations: [MainComponent],
       providers: [
         {
@@ -41,8 +40,6 @@ describe('MainComponent', () => {
         component = fixture.componentInstance
         component.ngOnInit()
         fixture.detectChanges()
-        de = fixture.debugElement.query(By.css('form'))
-        el = de.nativeElement
       })
   }))
 
@@ -53,6 +50,8 @@ describe('MainComponent', () => {
   it('form should be invalid when empty', () => {
     component.answerForm.controls.attempt.setValue('')
     expect(component.answerForm.valid).toBeFalsy()
+    component.championForm.controls.name.setValue('')
+    expect(component.championForm.valid).toBeFalsy()
   })
 
   it('attempt field should be required', () => {
@@ -63,6 +62,14 @@ describe('MainComponent', () => {
     expect(attempt.hasError('required')).toBeTruthy()
   })
 
+  it('name field should be required', () => {
+    const name = component.championForm.controls.name
+    expect(name.valid).toBeFalsy()
+
+    name.setValue('')
+    expect(name.hasError('required')).toBeTruthy()
+  })
+
   it('attempt field should be invalid with symbols', () => {
     const attempt = component.answerForm.controls.attempt
     expect(attempt.valid).toBeFalsy()
@@ -71,12 +78,26 @@ describe('MainComponent', () => {
     expect(attempt.hasError('pattern')).toBeTruthy()
   })
 
+  it('name field should be invalid with symbols', () => {
+    const name = component.championForm.controls.name
+    expect(name.valid).toBeFalsy()
+
+    name.setValue('/')
+    expect(name.hasError('pattern')).toBeTruthy()
+  })
+
   it('attempt field should be invalid with long string', () => {
     const attempt = component.answerForm.controls.attempt
     expect(attempt.valid).toBeFalsy()
 
     attempt.setValue('x'.repeat(100))
     expect(attempt.hasError('maxlength')).toBeTruthy()
+  })
+
+  it('name field should be invalid with short string', () => {
+    const name = component.championForm.controls.name
+    name.setValue('xx')
+    expect(name.hasError('minlength')).toBeTruthy()
   })
 
   it('form should be valid with expected values', () => {
@@ -93,3 +114,4 @@ describe('MainComponent', () => {
     expect(component.answerForm.controls.attempt.value).toBeNull()
   })
 })
+

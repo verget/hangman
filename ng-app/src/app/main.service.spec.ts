@@ -23,17 +23,34 @@ describe('MainService', () => {
     http = TestBed.get(HttpTestingController)
   })
 
-
   it('should be created', () => {
     expect(service).toBeTruthy()
   })
 
   it('should make request to expected url to get a random answer', () => {
-    service.getRandomAnswer().subscribe();
-    const url = `${baseUrl}/answers/0/`;
-    const req = http.expectOne(url);
-    expect(req.request.method).toEqual('GET');
-    req.flush([answer]);
+    service.getRandomAnswer().subscribe()
+    const url = `${baseUrl}/answers/0/`
+    const req = http.expectOne(url)
+    expect(req.request.method).toEqual('GET')
+    req.flush([answer])
+    http.verify()
+  })
+
+  it('should make request to expected url to get a liderboard', () => {
+    service.loadLiderboard().subscribe()
+    const url = `${baseUrl}/champions/`
+    const req = http.expectOne(url)
+    expect(req.request.method).toEqual('GET')
+    req.flush([answer])
+    http.verify()
+  })
+
+  it('should make request to expected url to save a champion', () => {
+    service.saveChampion({name: 'abc', score: '100'}).subscribe()
+    const url = `${baseUrl}/champions/`
+    const req = http.expectOne(url)
+    expect(req.request.method).toEqual('POST')
+    req.flush([answer])
     http.verify()
   })
 
@@ -41,7 +58,7 @@ describe('MainService', () => {
     const expected = '3DHUBS'
     const encrypted = 'M0RIVUJT'
     const result = service.decryptMessage(encrypted)
-    expect(result).toEqual(expected);
+    expect(result).toEqual(expected)
   })
 
   it('should call get answer method to start a game', async () => {
